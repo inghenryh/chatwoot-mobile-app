@@ -33,7 +33,7 @@ import uk from './uk.json';
 import vi from './vi.json';
 import zh from './zh.json';
 
-i18n.locale = 'en';
+i18n.locale = 'es';
 i18n.fallbacks = true;
 i18n.translations = {
   af,

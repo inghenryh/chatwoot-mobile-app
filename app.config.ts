@@ -2,7 +2,7 @@ import { ExpoConfig, ConfigContext } from 'expo/config';
 
 export default ({ config }: ConfigContext): ExpoConfig => {
   return {
-    name: 'Chatwoot',
+    name: 'Corponet IA Chat',
     slug: process.env.EXPO_PUBLIC_APP_SLUG || 'chatwoot-mobile',
     version: '4.2.0',
     orientation: 'portrait',
@@ -17,7 +17,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     },
     ios: {
       supportsTablet: true,
-      bundleIdentifier: 'com.chatwoot.app',
+      bundleIdentifier: 'com.corponetiachat.app',
       infoPlist: {
         NSCameraUsageDescription:
           'This app requires access to the camera to upload images and videos.',
@@ -32,14 +32,15 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       // Please use the relative path to the google-services.json file
       googleServicesFile: process.env.EXPO_PUBLIC_IOS_GOOGLE_SERVICES_FILE,
       entitlements: { 'aps-environment': 'production' },
-      associatedDomains: ['applinks:app.chatwoot.com'],
+      associatedDomains: ['applinks:chat.corponetia.com'],
     },
     android: {
-      adaptiveIcon: { foregroundImage: './assets/adaptive-icon.png', backgroundColor: '#ffffff' },
-      package: 'com.chatwoot.app',
+      adaptiveIcon: { foregroundImage: './assets/adaptive-icon.png', backgroundColor: '#000000' },
+      package: 'com.corponetiachat.app',
       permissions: ['android.permission.CAMERA', 'android.permission.RECORD_AUDIO'],
       // Please use the relative path to the google-services.json file
-      googleServicesFile: process.env.EXPO_PUBLIC_ANDROID_GOOGLE_SERVICES_FILE,
+      googleServicesFile:
+        process.env.EXPO_PUBLIC_ANDROID_GOOGLE_SERVICES_FILE || './google-services.json',
       intentFilters: [
         {
           action: 'VIEW',
@@ -47,7 +48,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           data: [
             {
               scheme: 'https',
-              host: 'app.chatwoot.com',
+              host: 'chat.corponetia.com',
               pathPrefix: '/app/accounts/',
               pathPattern: '/*/conversations/*',
             },
