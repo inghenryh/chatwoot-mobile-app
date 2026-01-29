@@ -119,12 +119,14 @@ const LoginScreen = () => {
         <Animated.ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={tailwind.style('px-6 pt-24')}>
-          <Image
-            // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-            source={require('@/assets/images/logo.png')}
-            style={tailwind.style('w-10 h-10')}
-            resizeMode="contain"
-          />
+          <View style={tailwind.style('items-center')}>
+            <Image
+              // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+              source={require('@/assets/images/logo.png')}
+              style={tailwind.style('w-40 h-40')}
+              resizeMode="contain"
+            />
+          </View>
           <View style={tailwind.style('pt-6 gap-4')}>
             <Animated.Text style={tailwind.style('text-2xl text-gray-950 font-inter-semibold-20')}>
               {i18n.t('LOGIN.TITLE')}
