@@ -13,7 +13,7 @@
     "SETTINGS": "Preferencias"
   },
   "CONFIGURE_URL": {
-    "ENTER_URL": "URL de instalación",
+    "ENTER_URL": "URL de servidor",
     "DESCRIPTION": "Si estás usando una instalación de Chatwoot autoalojada, introduce la URL de tu servidor. De lo contrario, usa chat.corponetia.com.",
     "URL_ERROR": "Introduzca una URL válida",
     "URL_REQUIRED": "La URL es requerida",
