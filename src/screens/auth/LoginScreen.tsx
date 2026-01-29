@@ -269,7 +269,7 @@ const LoginScreen = () => {
                 <Image
                   // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
                   source={require('@/assets/images/whatsapp.png')}
-                  style={tailwind.style('w-[75px] h-[75px]')}
+                  style={tailwind.style('w-[50px] h-[50px]')}
                   resizeMode="contain"
                 />
               </Pressable>
@@ -277,7 +277,7 @@ const LoginScreen = () => {
                 <Image
                   // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
                   source={require('@/assets/images/web.png')}
-                  style={tailwind.style('w-[75px] h-[75px]')}
+                  style={tailwind.style('w-[50px] h-[50px]')}
                   resizeMode="contain"
                 />
               </Pressable>
@@ -285,7 +285,7 @@ const LoginScreen = () => {
                 <Image
                   // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
                   source={require('@/assets/images/instagram.png')}
-                  style={tailwind.style('w-[75px] h-[75px]')}
+                  style={tailwind.style('w-[50px] h-[50px]')}
                   resizeMode="contain"
                 />
               </Pressable>
