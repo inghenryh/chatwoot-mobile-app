@@ -20,9 +20,9 @@ export const userStatusList = [
 ];
 
 export const AVAILABILITY_STATUS_LIST = [
-  { statusColor: 'bg-green-800', status: 'online' },
-  { statusColor: 'bg-yellow-800', status: 'busy' },
-  { statusColor: 'bg-gray-800', status: 'offline' },
+  { statusColor: 'bg-green-800', status: 'online', label: 'En línea' },
+  { statusColor: 'bg-yellow-800', status: 'busy', label: 'Ocupado' },
+  { statusColor: 'bg-gray-800', status: 'offline', label: 'Desconectado' },
 ];
 
 export const AUDIO_FORMATS = {

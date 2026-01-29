@@ -6,13 +6,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StackActions, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {
-  BottomSheetModal,
-  BottomSheetScrollView,
-  useBottomSheetSpringConfigs,
-} from '@gorhom/bottom-sheet';
+import { BottomSheetModal, useBottomSheetSpringConfigs } from '@gorhom/bottom-sheet';
 import DeviceInfo from 'react-native-device-info';
-import * as WebBrowser from 'expo-web-browser';
 import ChatWootWidget from '@chatwoot/react-native-widget';
 import { useSelector } from 'react-redux';
 import * as Application from 'expo-application';
@@ -22,7 +17,6 @@ import { resetNotifications } from '@/store/notification/notificationSlice';
 import { clearAllContacts } from '@/store/contact/contactSlice';
 
 import i18n from 'i18n';
-import { HELP_URL } from '@/constants/url';
 import { tailwind } from '@/theme';
 
 import {
@@ -30,7 +24,6 @@ import {
   BottomSheetHeader,
   BottomSheetWrapper,
   Button,
-  LanguageList,
   AvailabilityStatusList,
   NotificationPreferences,
   SwitchAccount,
@@ -38,9 +31,9 @@ import {
 } from '@/components-next';
 import { UserAvatar } from './components/UserAvatar';
 
-import { LANGUAGES, TAB_BAR_HEIGHT } from '@/constants';
+import { TAB_BAR_HEIGHT } from '@/constants';
 import { useRefsContext } from '@/context';
-import { ChatwootIcon, NotificationIcon, SwitchIcon, TranslateIcon } from '@/svg-icons';
+import { ChatwootIcon, NotificationIcon, SwitchIcon } from '@/svg-icons';
 import { GenericListType } from '@/types';
 
 import { useHaptic } from '@/utils';
@@ -53,13 +46,8 @@ import {
 } from '@/store/auth/authSelectors';
 import { logout, setAccount } from '@/store/auth/authSlice';
 import { authActions } from '@/store/auth/authActions';
-import {
-  selectLocale,
-  selectIsChatwootCloud,
-  selectPushToken,
-} from '@/store/settings/settingsSelectors';
+import { selectPushToken } from '@/store/settings/settingsSelectors';
 import { settingsActions } from '@/store/settings/settingsActions';
-import { setLocale } from '@/store/settings/settingsSlice';
 
 import AnalyticsHelper from '@/utils/analyticsUtils';
 import { PROFILE_EVENTS } from '@/constants/analyticsEvents';
@@ -120,9 +108,7 @@ const SettingsScreen = () => {
     operatingSystem: Platform.OS, // android/ios
   };
 
-  const isChatwootCloud = useAppSelector(selectIsChatwootCloud);
-
-  const chatwootInstance = isChatwootCloud ? `${appName} cloud` : `${appName} self-hosted`;
+  const chatwootInstance = 'Desarrollado por Corponet IA +584246116735';
 
   const accounts = useSelector(selectAccounts) || [];
 
@@ -132,10 +118,8 @@ const SettingsScreen = () => {
 
   const enableAccountSwitch = accounts.length > 1;
 
-  const activeLocale = useSelector(selectLocale);
   const {
     userAvailabilityStatusSheetRef,
-    languagesModalSheetRef,
     notificationPreferencesSheetRef,
     switchAccountSheetRef,
     debugActionsSheetRef,
@@ -165,10 +149,6 @@ const SettingsScreen = () => {
     dispatch(authActions.updateAvailability(payload));
   };
 
-  const onChangeLanguage = (locale: string) => {
-    dispatch(setLocale(locale));
-  };
-
   const changeAccount = (accountId: number) => {
     dispatch(clearAllContacts());
     dispatch(clearAllConversations());
@@ -184,17 +164,6 @@ const SettingsScreen = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [availabilityStatus]);
-
-  useEffect(() => {
-    languagesModalSheetRef.current?.dismiss({
-      overshootClamping: true,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeLocale]);
-
-  const openURL = async () => {
-    await WebBrowser.openBrowserAsync(HELP_URL);
-  };
 
   // const openSystemSettings = () => {
   //   if (Platform.OS === 'ios') {
@@ -230,14 +199,6 @@ const SettingsScreen = () => {
       // onPressListItem: openSystemSettings,
     },
     {
-      hasChevron: true,
-      title: i18n.t('SETTINGS.CHANGE_LANGUAGE'),
-      icon: <TranslateIcon />,
-      subtitle: LANGUAGES[activeLocale as keyof typeof LANGUAGES],
-      subtitleType: 'light',
-      onPressListItem: () => languagesModalSheetRef.current?.present(),
-    },
-    {
       hasChevron: enableAccountSwitch,
       title: i18n.t('SETTINGS.SWITCH_ACCOUNT'),
       icon: <SwitchIcon />,
@@ -252,14 +213,6 @@ const SettingsScreen = () => {
   ];
 
   const supportList: GenericListType[] = [
-    {
-      hasChevron: true,
-      title: i18n.t('SETTINGS.READ_DOCS'),
-      icon: <SwitchIcon />,
-      subtitle: '',
-      subtitleType: 'light',
-      onPressListItem: openURL,
-    },
     {
       hasChevron: true,
       title: i18n.t('SETTINGS.CHAT_WITH_US'),
@@ -319,7 +272,7 @@ const SettingsScreen = () => {
           style={tailwind.style('p-4 items-center')}
           onLongPress={() => debugActionsSheetRef.current?.present()}>
           <Text style={tailwind.style('text-sm text-gray-700 ')}>
-            {`${chatwootInstance} ${appVersionDetails}`}
+            {chatwootInstance}
           </Text>
         </Pressable>
       </Animated.ScrollView>
@@ -341,22 +294,6 @@ const SettingsScreen = () => {
             availabilityStatus={availabilityStatus}
           />
         </BottomSheetWrapper>
-      </BottomSheetModal>
-      <BottomSheetModal
-        ref={languagesModalSheetRef}
-        backdropComponent={BottomSheetBackdrop}
-        handleIndicatorStyle={tailwind.style('overflow-hidden bg-blackA-A6 w-8 h-1 rounded-[11px]')}
-        // TODO: Fix this later
-        // bottomInset={bottom === 0 ? 12 : bottom}
-        enablePanDownToClose
-        animationConfigs={animationConfigs}
-        handleStyle={tailwind.style('p-0 h-4 pt-[5px]')}
-        style={tailwind.style('rounded-[26px] overflow-hidden')}
-        snapPoints={['70%']}>
-        <BottomSheetScrollView showsVerticalScrollIndicator={false}>
-          <BottomSheetHeader headerText={i18n.t('SETTINGS.SET_LANGUAGE')} />
-          <LanguageList onChangeLanguage={onChangeLanguage} currentLanguage={activeLocale} />
-        </BottomSheetScrollView>
       </BottomSheetModal>
       <BottomSheetModal
         ref={notificationPreferencesSheetRef}
@@ -413,7 +350,7 @@ const SettingsScreen = () => {
         !!showWidget && (
           <ChatWootWidget
             websiteToken={process.env.EXPO_PUBLIC_CHATWOOT_WEBSITE_TOKEN}
-            locale="en"
+            locale="es"
             baseUrl={process.env.EXPO_PUBLIC_CHATWOOT_BASE_URL}
             closeModal={() => toggleWidget(false)}
             isModalVisible={showWidget}
