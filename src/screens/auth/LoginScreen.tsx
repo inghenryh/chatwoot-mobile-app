@@ -50,10 +50,6 @@ const LoginScreen = () => {
     Linking.openURL('https://corponetia.com');
   };
 
-  const openInstagram = () => {
-    Linking.openURL('https://www.instagram.com/elingenieroof');
-  };
-
   useEffect(() => {
     dispatch(resetAuth());
     if (!installationUrl) {
@@ -92,6 +88,7 @@ const LoginScreen = () => {
   const openConfigInstallationURL = () => {
     navigation.navigate('ConfigureURL' as never);
   };
+
 
   const handleSsoLogin = async () => {
     if (!installationUrl) {
@@ -264,30 +261,19 @@ const LoginScreen = () => {
             </Animated.Text>
           </Pressable>
           <View style={tailwind.style('pt-8 pb-4')}>
-            <View style={tailwind.style('flex-row justify-center items-center gap-4')}>
+            <View style={tailwind.style('flex-row justify-center items-center')}>
               <Pressable style={tailwind.style('items-center')} onPress={openWhatsApp}>
                 <Image
                   // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
                   source={require('@/assets/images/whatsapp.png')}
-                  style={tailwind.style('w-[75px] h-[75px]')}
+                  style={tailwind.style('w-6 h-6')}
                   resizeMode="contain"
                 />
               </Pressable>
-              <Pressable style={tailwind.style('items-center')} onPress={openWebsite}>
-                <Image
-                  // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-                  source={require('@/assets/images/web.png')}
-                  style={tailwind.style('w-[75px] h-[75px]')}
-                  resizeMode="contain"
-                />
-              </Pressable>
-              <Pressable style={tailwind.style('items-center')} onPress={openInstagram}>
-                <Image
-                  // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-                  source={require('@/assets/images/instagram.png')}
-                  style={tailwind.style('w-[75px] h-[75px]')}
-                  resizeMode="contain"
-                />
+              <Pressable style={tailwind.style('ml-2')} onPress={openWebsite}>
+                <Animated.Text style={tailwind.style('text-sm text-gray-900')}>
+                  www.corponetia.com
+                </Animated.Text>
               </Pressable>
             </View>
           </View>
