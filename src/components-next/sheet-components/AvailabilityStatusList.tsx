@@ -44,7 +44,7 @@ const StatusCell = ({
             style={tailwind.style(
               'text-base capitalize text-gray-950 font-inter-420-20 leading-[21px] tracking-[0.16px]',
             )}>
-            {item.status}
+            {item.label ?? item.status}
           </Text>
           {isSelected && <Icon icon={<TickIcon />} size={20} />}
         </Animated.View>
