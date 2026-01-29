@@ -107,6 +107,24 @@ const LoginScreen = () => {
     }
   };
 
+  const handleSsoLogin = async () => {
+    if (!installationUrl) {
+      return;
+    }
+
+    try {
+      const result = await SsoUtils.loginWithSSO(installationUrl);
+
+      if (result.type === 'success' && result.url) {
+        const ssoParams = SsoUtils.parseCallbackUrl(result.url);
+        await SsoUtils.handleSsoCallback(ssoParams, dispatch);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      // SSO login error handled silently
+    }
+  };
+
   return (
     <SafeAreaView edges={['top']} style={tailwind.style('flex-1 bg-white')}>
       <StatusBar
