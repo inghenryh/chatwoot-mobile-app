@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Animated, Image, Pressable, StatusBar, TextInput, View } from 'react-native';
+import { Animated, Image, Linking, Pressable, StatusBar, TextInput, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import {
-  BottomSheetModal,
-  BottomSheetScrollView,
-  useBottomSheetSpringConfigs,
-} from '@gorhom/bottom-sheet';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { EMAIL_REGEX } from '@/constants';
@@ -17,21 +12,12 @@ import { resetAuth } from '@/store/auth/authSlice';
 import { authActions } from '@/store/auth/authActions';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 
-import {
-  BottomSheetBackdrop,
-  BottomSheetHeader,
-  LanguageList,
-  Button,
-  Icon,
-} from '@/components-next';
+import { Button, Icon } from '@/components-next';
 import {
   selectInstallationUrl,
   selectBaseUrl,
-  selectLocale,
 } from '@/store/settings/settingsSelectors';
 import { selectIsLoggingIn } from '@/store/auth/authSelectors';
-import { setLocale } from '@/store/settings/settingsSlice';
-import { useRefsContext } from '@/context/RefsContext';
 
 type FormData = {
   email: string;
@@ -52,27 +38,18 @@ const LoginScreen = () => {
     },
   });
 
-  const { languagesModalSheetRef } = useRefsContext();
-
-  const animationConfigs = useBottomSheetSpringConfigs({
-    mass: 1,
-    stiffness: 420,
-    damping: 30,
-  });
-
   const dispatch = useAppDispatch();
   const isLoggingIn = useAppSelector(selectIsLoggingIn);
 
   const installationUrl = useAppSelector(selectInstallationUrl);
   const baseUrl = useAppSelector(selectBaseUrl);
-  const activeLocale = useAppSelector(selectLocale);
+  const openWhatsApp = () => {
+    Linking.openURL('https://wa.me/584246116735');
+  };
 
-  useEffect(() => {
-    languagesModalSheetRef.current?.dismiss({
-      overshootClamping: true,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeLocale]);
+  const openWebsite = () => {
+    Linking.openURL('https://corponetia.com');
+  };
 
   useEffect(() => {
     dispatch(resetAuth());
@@ -92,10 +69,6 @@ const LoginScreen = () => {
 
   const openConfigInstallationURL = () => {
     navigation.navigate('ConfigureURL' as never);
-  };
-
-  const onChangeLanguage = (locale: string) => {
-    dispatch(setLocale(locale));
   };
 
   return (
@@ -229,30 +202,25 @@ const LoginScreen = () => {
               {i18n.t('LOGIN.CHANGE_URL')}
             </Animated.Text>
           </Pressable>
-          <Pressable
-            style={tailwind.style('flex-row justify-center items-center mt-4')}
-            onPress={() => languagesModalSheetRef.current?.present()}>
-            <Animated.Text style={tailwind.style('text-sm text-gray-900')}>
-              {i18n.t('LOGIN.CHANGE_LANGUAGE')}
-            </Animated.Text>
-          </Pressable>
+          <View style={tailwind.style('pt-8 pb-4')}>
+            <View style={tailwind.style('flex-row justify-center items-center')}>
+              <Pressable style={tailwind.style('items-center')} onPress={openWhatsApp}>
+                <Image
+                  // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+                  source={require('@/assets/images/whatsapp.png')}
+                  style={tailwind.style('w-6 h-6')}
+                  resizeMode="contain"
+                />
+              </Pressable>
+              <Pressable style={tailwind.style('ml-2')} onPress={openWebsite}>
+                <Animated.Text style={tailwind.style('text-sm text-gray-900')}>
+                  www.corponetia.com
+                </Animated.Text>
+              </Pressable>
+            </View>
+          </View>
         </Animated.ScrollView>
       </View>
-      <BottomSheetModal
-        ref={languagesModalSheetRef}
-        backdropComponent={BottomSheetBackdrop}
-        handleIndicatorStyle={tailwind.style('overflow-hidden bg-blackA-A6 w-8 h-1 rounded-[11px]')}
-        detached
-        enablePanDownToClose
-        animationConfigs={animationConfigs}
-        handleStyle={tailwind.style('p-0 h-4 pt-[5px]')}
-        style={tailwind.style('rounded-[26px] overflow-hidden')}
-        snapPoints={['70%']}>
-        <BottomSheetScrollView showsVerticalScrollIndicator={false}>
-          <BottomSheetHeader headerText={i18n.t('SETTINGS.SET_LANGUAGE')} />
-          <LanguageList onChangeLanguage={onChangeLanguage} currentLanguage={activeLocale} />
-        </BottomSheetScrollView>
-      </BottomSheetModal>
     </SafeAreaView>
   );
 };
