@@ -40,3 +40,6 @@ android/
 GoogleService-Info.plist
 .env
 .env.local
+google-services.json
+android/app/google-services.json
+android/google-services.json
