@@ -1,6 +1,7 @@
 import { ExpoConfig, ConfigContext } from 'expo/config';
 
 export default ({ config }: ConfigContext): ExpoConfig => {
+  const easOwner = process.env.EXPO_PUBLIC_EAS_OWNER;
   return {
     name: 'Corponet IA Chat',
     slug: process.env.EXPO_PUBLIC_APP_SLUG || 'chatwoot-mobile',
@@ -73,7 +74,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         storybookEnabled: process.env.EXPO_STORYBOOK_ENABLED,
       },
     },
-    owner: 'chatwoot',
+    ...(easOwner ? { owner: easOwner } : {}),
     plugins: [
       'expo-font',
       ['react-native-permissions', { iosPermissions: ['Camera', 'PhotoLibrary', 'MediaLibrary'] }],
